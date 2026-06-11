@@ -19,55 +19,12 @@ import InputLabel from '@mui/material/InputLabel'
 import classnames from 'classnames'
 
 // Components Imports
-import CustomAvatar from '@core/components/mui/Avatar'
+// import CustomAvatar from '@core/components/mui/Avatar'
 
 // Styles Imports
 import frontCommonStyles from '@views/front-pages/styles.module.css'
 import styles from './styles.module.css'
-
-const pricingPlans = [
-  {
-    title: 'Basic',
-    img: '/images/front-pages/landing-page/pricing-basic.png',
-    monthlyPay: 19,
-    annualPay: 14,
-    perYearPay: 168,
-    features: ['Timeline', 'Basic search', 'Live chat widget', 'Email marketing', 'Custom Forms', 'Traffic analytics'],
-    current: false
-  },
-  {
-    title: 'Team',
-    img: '/images/front-pages/landing-page/pricing-team.png',
-    monthlyPay: 29,
-    annualPay: 22,
-    perYearPay: 264,
-    features: [
-      'Everything in basic',
-      'Timeline with database',
-      'Advanced search',
-      'Marketing automation',
-      'Advanced chatbot',
-      'Campaign management'
-    ],
-    current: true
-  },
-  {
-    title: 'Enterprise',
-    img: '/images/front-pages/landing-page/pricing-enterprise.png',
-    monthlyPay: 49,
-    annualPay: 37,
-    perYearPay: 444,
-    features: [
-      'Campaign management',
-      'Timeline with database',
-      'Fuzzy search',
-      'A/B testing sanbox',
-      'Custom permissions',
-      'Social media automation'
-    ],
-    current: false
-  }
-]
+import { useAbonPro } from '@/hooks/useAbonPro'
 
 const PricingPlan = () => {
   // States
@@ -79,6 +36,31 @@ const PricingPlan = () => {
     } else {
       setPricingPlan('monthly')
     }
+  }
+
+  const {
+    data: pricingPlans,
+    isLoading,
+    isError
+  } = useAbonPro({
+    page: 1,
+    limit: 10
+  })
+
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center min-h-[200px]'>
+        <Typography variant='h6'>Loading...</Typography>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className='flex items-center justify-center min-h-[200px]'>
+        <Typography variant='h6'>Error loading pricing plans.</Typography>
+      </div>
+    )
   }
 
   return (
@@ -127,20 +109,20 @@ const PricingPlan = () => {
           </div>
         </div>
         <Grid container spacing={6}>
-          {pricingPlans.map((plan, index) => (
+          {pricingPlans?.data?.rows?.map((plan, index) => (
             <Grid key={index} size={{ xs: 12, lg: 4 }}>
-              <Card className={`${plan.current && 'border-2 border-[var(--mui-palette-primary-main)] shadow-xl'}`}>
+              <Card className={`${'border-2 border-[var(--mui-palette-primary-main)] shadow-xl'}`}>
                 <CardContent className='flex flex-col gap-8 p-8'>
-                  <div className='is-full flex flex-col items-center gap-3'>
+                  {/* <div className='is-full flex flex-col items-center gap-3'>
                     <img src={plan.img} alt={plan.img} height='88' width='86' className='text-center' />
-                  </div>
+                  </div> */}
                   <div className='flex flex-col items-center gap-y-[2px] relative'>
                     <Typography className='text-center' variant='h4'>
-                      {plan.title}
+                      {plan.type}
                     </Typography>
                     <div className='flex items-baseline gap-x-1'>
                       <Typography variant='h2' color='primary.main' className='font-extrabold'>
-                        ${pricingPlan === 'monthly' ? plan.monthlyPay : plan.annualPay}
+                        ${pricingPlan === 'monthly' ? plan.prix : Number(plan.prix) * 12}
                       </Typography>
                       <Typography color='text.disabled' className='font-medium'>
                         /mo
@@ -148,12 +130,12 @@ const PricingPlan = () => {
                     </div>
                     {pricingPlan === 'annually' && (
                       <Typography color='text.disabled' className='absolute block-start-[100%]'>
-                        ${plan.perYearPay} / year
+                        ${Number(plan.prix) * 12} / year
                       </Typography>
                     )}
                   </div>
                   <div>
-                    <div className='flex flex-col gap-3 mbs-3'>
+                    {/* <div className='flex flex-col gap-3 mbs-3'>
                       {plan.features.map((feature, index) => (
                         <div key={index} className='flex items-center gap-[12px]'>
                           <CustomAvatar color='primary' skin={plan.current ? 'filled' : 'light'} size={20}>
@@ -162,9 +144,9 @@ const PricingPlan = () => {
                           <Typography variant='h6'>{feature}</Typography>
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
-                  <Button component={Link} href='/front-pages/payment' variant={plan.current ? 'contained' : 'tonal'}>
+                  <Button component={Link} href='/front-pages/payment' variant={'tonal'}>
                     Get Started
                   </Button>
                 </CardContent>

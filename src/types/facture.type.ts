@@ -1,13 +1,13 @@
 import * as v from 'valibot'
 
+import type { QueryParamsPagnination } from './common.type'
+
 export enum EnumTypeFacture {
   CLIENT = 'CLIENT',
   PROPRIETAIRE = 'PROPRIETAIRE'
 }
 
-export type FactureQuery = {
-  page: number
-  limit: number
+export type FactureQuery = QueryParamsPagnination & {
   typeFacture: EnumTypeFacture
 }
 

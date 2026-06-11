@@ -1,3 +1,8 @@
+export type QueryParamsPagnination = {
+  page: number
+  limit: number
+}
+
 export type ApiResponsePagination<TableData> = {
   page: number
   limit: number
@@ -8,7 +13,6 @@ export type Data<Row> = {
   count: number
   rows: Row[]
 }
-
 
 export type ApiResponse<TableData> = {
   success: boolean
