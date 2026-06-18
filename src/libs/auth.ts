@@ -5,8 +5,9 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
 import type { NextAuthOptions } from 'next-auth'
 import type { Adapter } from 'next-auth/adapters'
+
 import { AuthService } from '@/services/auth/AuthService'
-import { UserType } from '@/types/models/User'
+import type { UserType } from '@/types/models/User'
 
 const prisma = new PrismaClient()
 
@@ -35,9 +36,11 @@ export const authOptions: NextAuthOptions = {
          * You can also use the `req` object to obtain additional parameters (i.e., the request IP address)
          */
         const { email, password } = credentials as { email: string; password: string }
+
         console.log(email, password);
 
         const res = await AuthService.login({ email, password })
+
         console.log(res);
 
         if (res.status === 200) {
