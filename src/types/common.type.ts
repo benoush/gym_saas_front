@@ -9,7 +9,10 @@ export type QueryParamsPagnination = {
 export type ApiResponsePagination<TableData> = {
   page: number
   limit: number
-  data: Data<TableData>
+  data: {
+    count: number
+    rows: TableData[]
+  }
 }
 
 export type Data<Row> = {
