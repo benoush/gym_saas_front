@@ -95,13 +95,16 @@ export const authOptions: NextAuthOptions = {
       return { ...token, ...user }
     },
     async session({ session, token }) {
-      if (session.user) {
-        // ** Add custom params to user in session which are added in `jwt()` callback via `token` parameter
-        session.user = token.user as LoginResponseUser
-        session.token = token.access_token as string
-      }
+      console.log('session', session)
+      console.log('token', token)
 
-      return session
+      // if (session.user) {
+      //   // ** Add custom params to user in session which are added in `jwt()` callback via `token` parameter
+      //   session.user = token.user as LoginResponseUser
+      //   session.token = token.access_token as string
+      // }
+
+      return { ...session, user: token.user as LoginResponseUser, token: token.accessToken as string }
     }
   }
 }
