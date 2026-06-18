@@ -11,7 +11,7 @@ export const LoginSchema = v.object({
     ),
 });
 
-export type LoginFormData = v.InferOutput<typeof LoginSchema>;
+export type LoginFormData = v.InferInput<typeof LoginSchema>;
 
 
 

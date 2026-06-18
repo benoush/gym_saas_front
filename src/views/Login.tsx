@@ -23,9 +23,7 @@ import Alert from '@mui/material/Alert'
 import { signIn } from 'next-auth/react'
 import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
-import { email, object, minLength, string, pipe, nonEmpty } from 'valibot'
 import type { SubmitHandler } from 'react-hook-form'
-import type { InferInput } from 'valibot'
 import classnames from 'classnames'
 
 // Type Imports
@@ -45,6 +43,8 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
+import type { LoginFormData } from '@/validations/auth.validation'
+import { LoginSchema } from '@/validations/auth.validation'
 
 // Styled Custom Components
 const LoginIllustration = styled('img')(({ theme }) => ({
@@ -74,17 +74,6 @@ type ErrorType = {
   message: string[]
 }
 
-type FormData = InferInput<typeof schema>
-
-const schema = object({
-  email: pipe(string(), minLength(1, 'This field is required'), email('Email is invalid')),
-  password: pipe(
-    string(),
-    nonEmpty('This field is required'),
-    // minLength(5, 'Password must be at least 5 characters long')
-  )
-})
-
 const Login = ({ mode }: { mode: SystemMode }) => {
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
@@ -111,11 +100,11 @@ const Login = ({ mode }: { mode: SystemMode }) => {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>({
-    resolver: valibotResolver(schema),
+  } = useForm<LoginFormData>({
+    resolver: valibotResolver(LoginSchema),
     defaultValues: {
-      email: 'aze@example.com',
-      password: '123'
+      email: 'admin@gymsaas.com',
+      password: 'Admin123!'
     }
   })
 
@@ -129,14 +118,14 @@ const Login = ({ mode }: { mode: SystemMode }) => {
 
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
-  const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async (data: LoginFormData) => {
     const res = await signIn('credentials', {
       email: data.email,
       password: data.password,
       redirect: false
     })
-    console.log(res);
 
+    console.log(res)
 
     if (res && res.ok && res.error === null) {
       // Vars
@@ -183,7 +172,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
           <form
             noValidate
             autoComplete='off'
-            action={() => { }}
+            action={() => {}}
             onSubmit={handleSubmit(onSubmit)}
             className='flex flex-col gap-6'
           >

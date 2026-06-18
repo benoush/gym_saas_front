@@ -1,8 +1,8 @@
-import type { UserType } from "@/types/models/User";
+import type { LoginResponseUser } from '@/types/auth.type'
 
-declare module "next-auth" {
-    interface Session {
-        user: UserType
-        token?: string
-    }
+declare module 'next-auth' {
+  interface Session {
+    user: LoginResponseUser
+    token?: string
+  }
 }

@@ -17,5 +17,5 @@ export type Data<Row> = {
 export type ApiResponse<TableData> = {
   success: boolean
   data: Data<TableData>
-  message: string
+  message?: string
 }

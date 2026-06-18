@@ -1,18 +1,13 @@
 // Third-party Imports
 import CredentialProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
-import type { NextAuthOptions } from 'next-auth'
-import type { Adapter } from 'next-auth/adapters'
-import { AuthService } from '@/services/auth/AuthService'
-import { UserType } from '@/types/models/User'
 
-const prisma = new PrismaClient()
+import type { NextAuthOptions } from 'next-auth'
+
+import { AuthService } from '@/services/auth/AuthService'
+import type { LoginResponseUser } from '@/types/auth.type'
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as Adapter,
-
   // ** Configure one or more authentication providers
   // ** Please refer to https://next-auth.js.org/configuration/options#providers for more `providers` options
   providers: [
@@ -35,18 +30,18 @@ export const authOptions: NextAuthOptions = {
          * You can also use the `req` object to obtain additional parameters (i.e., the request IP address)
          */
         const { email, password } = credentials as { email: string; password: string }
-        console.log(email, password);
+
+        console.log(email, password)
 
         const res = await AuthService.login({ email, password })
-        console.log(res);
+
+        console.log(res.data)
 
         if (res.status === 200) {
-
           return res?.data.data
         }
 
         return null
-
       }
     }),
 
@@ -102,7 +97,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         // ** Add custom params to user in session which are added in `jwt()` callback via `token` parameter
-        session.user = token.user as UserType
+        session.user = token.user as LoginResponseUser
         session.token = token.access_token as string
       }
 
