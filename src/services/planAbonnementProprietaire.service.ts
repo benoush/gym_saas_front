@@ -1,3 +1,8 @@
+import type { ApiResponse, ApiResponsePagination, createPlanAbonnementProprietaireInput } from '@/types/common.type'
+import type {
+  PlanAbonnementProprietaireQuery,
+  PlanAbonnementProprietaire
+} from '../types/PlanAbonnementProprietaire.type'
 import type { ApiResponse, ApiResponsePagination } from '@/types/common.type'
 import type {
   PlanAbonnementProprietaire,
