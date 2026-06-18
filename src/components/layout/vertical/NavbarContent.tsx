@@ -2,6 +2,8 @@
 import classnames from 'classnames'
 
 // Type Imports
+import { Typography, Chip } from '@mui/material'
+
 import type { ShortcutsType } from '@components/layout/shared/ShortcutsDropdown'
 import type { NotificationsType } from '@components/layout/shared/NotificationsDropdown'
 
@@ -13,9 +15,9 @@ import ModeDropdown from '@components/layout/shared/ModeDropdown'
 import ShortcutsDropdown from '@components/layout/shared/ShortcutsDropdown'
 import NotificationsDropdown from '@components/layout/shared/NotificationsDropdown'
 import UserDropdown from '@components/layout/shared/UserDropdown'
+
 // Util Imports
 import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
-import { Typography, Chip } from '@mui/material'
 
 // Vars
 const shortcuts: ShortcutsType[] = [
@@ -109,14 +111,11 @@ const NavbarContent = () => {
   return (
     <div className={classnames(verticalLayoutClasses.navbarContent, 'flex items-center justify-between gap-4 is-full')}>
       <div className='flex items-center gap-4'>
-  <div className='flex items-center gap-2'>
-    
-
-    <Typography variant='h6' fontWeight={600}>
-      Gerald Gym
-    </Typography>
-
-  </div>
+        <div className='flex items-center gap-2'>
+          <Typography variant='h6' fontWeight={600}>
+            Gerald Gym
+          </Typography>
+        </div>
         <NavToggle />
         <NavSearch />
       </div>
