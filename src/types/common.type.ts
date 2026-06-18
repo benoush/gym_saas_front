@@ -1,6 +1,11 @@
 import type { User } from 'next-auth'
 import * as v from 'valibot'
 
+export type QueryParamsPagnination = {
+  page?: number
+  limit?: number
+}
+
 export type ApiResponsePagination<TableData> = {
   page: number
   limit: number

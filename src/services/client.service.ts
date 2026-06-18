@@ -1,10 +1,10 @@
 import type { clientQuery, client } from '@/types/client'
-import type { createClientInput, paginationsalle, salleApiResponse } from '@/types/common.type'
+import type { ApiResponsePagination, createClientInput, Data, salleApiResponse } from '@/types/common.type'
 import instance from './manager/axiosInstance'
 
 export class ClientService {
   static async getAllClient(query: clientQuery) {
-    return await instance.get<paginationsalle<client>>(`/client`, {
+    return await instance.get<ApiResponsePagination<Data<client>>>(`/client`, {
       params: query
     })
   }
